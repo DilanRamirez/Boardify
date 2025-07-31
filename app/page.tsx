@@ -1,10 +1,16 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useCallback } from "react";
 import { DraggableCard } from "@/components/draggable-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Download, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  RotateCcw,
+  Download,
+  ChevronDown,
+  ChevronUp,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 import React from "react";
 import { useCardLayout } from "@/hooks/use-card-layout";
 
@@ -63,6 +69,10 @@ const LayoutControls: React.FC<{
   domainStats: DomainStat[];
   onReset: () => void;
   onExport: () => void;
+  onResetZoom: () => void;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  currentScale: number;
 }> = React.memo(
   ({
     isCollapsed,
@@ -71,8 +81,12 @@ const LayoutControls: React.FC<{
     domainStats,
     onReset,
     onExport,
+    onResetZoom,
+    onZoomIn,
+    onZoomOut,
+    currentScale,
   }) => (
-    <div className="absolute top-4 left-4 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg border dark:border-gray-700">
+    <div className="absolute top-4 right-4 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg border dark:border-gray-700">
       <div className="p-3">
         <div className="flex items-center gap-3">
           <button
@@ -126,6 +140,38 @@ const LayoutControls: React.FC<{
                 <Download className="w-3 h-3 mr-1" aria-hidden />
                 Export
               </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={onZoomOut}
+                  className="text-xs bg-transparent"
+                  data-cy="zoom-out-button"
+                >
+                  <ZoomOut className="w-3 h-3 mr-1" aria-hidden />-
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={onZoomIn}
+                  className="text-xs bg-transparent"
+                  data-cy="zoom-in-button"
+                >
+                  <ZoomIn className="w-3 h-3 mr-1" aria-hidden />+
+                </Button>
+                <span className="text-xs ml-1">
+                  {Math.round(currentScale * 100)}%
+                </span>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={onResetZoom}
+                className="text-xs bg-transparent"
+                data-cy="reset-zoom-button"
+              >
+                Reset Zoom
+              </Button>
             </div>
           </>
         )}
@@ -153,11 +199,67 @@ export default function DigitalCardboard() {
     [],
   );
 
+  const [scale, setScale] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const MIN_SCALE = 0.2;
+  const MAX_SCALE = 3;
+  const clamp = (v: number, min: number, max: number) =>
+    Math.max(min, Math.min(max, v));
+
+  const zoomBy = (factor: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const newScaleUnclamped = clamp(scale * factor, MIN_SCALE, MAX_SCALE);
+    const worldX = (centerX - pan.x) / scale;
+    const worldY = (centerY - pan.y) / scale;
+    const newPanX = centerX - worldX * newScaleUnclamped;
+    const newPanY = centerY - worldY * newScaleUnclamped;
+    setScale(newScaleUnclamped);
+    setPan({ x: newPanX, y: newPanY });
+  };
+  const zoomIn = () => zoomBy(1.1);
+  const zoomOut = () => zoomBy(1 / 1.1);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+      const scaleFactor = Math.exp(-e.deltaY * 0.002);
+      const newScaleUnclamped = clamp(
+        scale * scaleFactor,
+        MIN_SCALE,
+        MAX_SCALE,
+      );
+      const worldX = (offsetX - pan.x) / scale;
+      const worldY = (offsetY - pan.y) / scale;
+      const newPanX = offsetX - worldX * newScaleUnclamped;
+      const newPanY = offsetY - worldY * newScaleUnclamped;
+      setScale(newScaleUnclamped);
+      setPan({ x: newPanX, y: newPanY });
+    } else if (e.altKey) {
+      e.preventDefault();
+      setPan((p) => ({ x: p.x - e.deltaY, y: p.y }));
+    }
+  };
+
+  const resetZoom = () => {
+    setScale(1);
+    setPan({ x: 0, y: 0 });
+  };
+
   if (loading) return <LoadingView />;
   if (error) return <ErrorView message={error} onRetry={resetPositions} />;
 
   return (
     <div
+      ref={containerRef}
+      onWheel={handleWheel}
       className="relative w-screen h-screen bg-white dark:bg-gray-900 overflow-hidden"
       data-cy="digital-cardboard-root"
     >
@@ -168,27 +270,39 @@ export default function DigitalCardboard() {
         domainStats={domainStats}
         onReset={resetPositions}
         onExport={exportLayout}
+        onResetZoom={resetZoom}
+        onZoomIn={zoomIn}
+        onZoomOut={zoomOut}
+        currentScale={scale}
       />
-
-      {cards.map((card) => (
-        <DraggableCard
-          key={card.id}
-          card={card}
-          onPositionChange={handlePositionChange}
-        />
-      ))}
-
       <div
-        className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
-        aria-hidden="true"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: "50px 50px",
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
+          transformOrigin: "0 0",
+          width: "100%",
+          height: "100%",
         }}
-      />
+      >
+        {cards.map((card) => (
+          <DraggableCard
+            key={card.id}
+            card={card}
+            onPositionChange={handlePositionChange}
+          />
+        ))}
+
+        <div
+          className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
+          aria-hidden="true"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+      </div>
     </div>
   );
 }
