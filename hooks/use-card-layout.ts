@@ -40,13 +40,10 @@ export function useCardLayout() {
     }
     saveTimeoutRef.current = window.setTimeout(() => {
       try {
-        const positions = latestCardsRef.current.reduce(
-          (acc, card) => {
-            acc[card.id] = { x: card.x, y: card.y };
-            return acc;
-          },
-          {} as Record<number, Position>,
-        );
+        const positions = latestCardsRef.current.reduce((acc, card) => {
+          acc[card.id] = { x: card.x, y: card.y };
+          return acc;
+        }, {} as Record<number, Position>);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
       } catch (e) {
         console.warn("Failed to save positions to localStorage", e);
@@ -54,75 +51,82 @@ export function useCardLayout() {
     }, SAVE_DEBOUNCE_MS);
   }, []);
 
-  const loadCards = useCallback(async () => {
-    console.time("loadCards");
-    setLoading(true);
-    try {
-      const cardsData = await fetchWithRetry<CardData[]>(CARDS_JSON_PATH);
-
-      if (!Array.isArray(cardsData)) {
-        throw new Error("cards.json did not return an array");
-      }
-
-      // Basic validation: ensure required fields exist on first card (could be expanded)
-      if (cardsData.length > 0) {
-        const sample = cardsData[0] as Partial<CardData>;
-        if (
-          typeof sample.id !== "number" ||
-          typeof sample.title !== "string" ||
-          typeof sample.domain !== "string"
-        ) {
-          throw new Error("cards.json has unexpected shape");
-        }
-      }
-
-      const savedPositions = getSavedPositions();
-
-      const merged = cardsData.map((card) => ({
-        ...card,
-        x: savedPositions[card.id]?.x ?? card.x,
-        y: savedPositions[card.id]?.y ?? card.y,
-      }));
-
-      setCards(merged);
-      latestCardsRef.current = merged;
-
-      const uniqueDomains = Array.from(new Set(cardsData.map((c) => c.domain)));
-      setDomains(uniqueDomains);
-      setError(null);
-    } catch (err: any) {
-      console.error("Error loading cards:", err);
-      setError(
-        "Failed to load cards. Please ensure cards.json exists and has valid data.",
-      );
-    } finally {
-      setLoading(false);
-      console.timeEnd("loadCards");
-    }
-  }, [getSavedPositions]);
-
-  // Initial load
   useEffect(() => {
-    void loadCards();
-    // cleanup on unmount: flush pending save
+    let cancelled = false;
+    const doLoad = async () => {
+      console.time("loadCards");
+      setLoading(true);
+      try {
+        const cardsData = await fetchWithRetry<CardData[]>(CARDS_JSON_PATH);
+
+        if (!Array.isArray(cardsData)) {
+          throw new Error("cards.json did not return an array");
+        }
+
+        if (cardsData.length > 0) {
+          const sample = cardsData[0] as Partial<CardData>;
+          if (
+            typeof sample.id !== "number" ||
+            typeof sample.title !== "string" ||
+            typeof sample.domain !== "string"
+          ) {
+            throw new Error("cards.json has unexpected shape");
+          }
+        }
+
+        const savedPositions = getSavedPositions();
+
+        const merged = cardsData.map((card) => ({
+          ...card,
+          x: savedPositions[card.id]?.x ?? card.x,
+          y: savedPositions[card.id]?.y ?? card.y,
+        }));
+
+        if (!cancelled) {
+          setCards(merged);
+          latestCardsRef.current = merged;
+
+          const uniqueDomains = Array.from(
+            new Set(cardsData.map((c) => c.domain))
+          );
+          setDomains(uniqueDomains);
+          setError(null);
+        }
+      } catch (err: any) {
+        console.error("Error loading cards:", err);
+        if (!cancelled) {
+          setError(
+            "Failed to load cards. Please ensure cards.json exists and has valid data."
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+        console.timeEnd("loadCards");
+      }
+    };
+
+    void doLoad();
     return () => {
+      cancelled = true;
       if (saveTimeoutRef.current) {
         window.clearTimeout(saveTimeoutRef.current);
       }
     };
-  }, [loadCards]);
+  }, [getSavedPositions]);
 
   const handlePositionChange = useCallback(
     (id: number, x: number, y: number) => {
       setCards((prev) => {
         const updated = prev.map((card) =>
-          card.id === id ? { ...card, x, y } : card,
+          card.id === id ? { ...card, x, y } : card
         );
         scheduleSavePositions(updated);
         return updated;
       });
     },
-    [scheduleSavePositions],
+    [scheduleSavePositions]
   );
 
   const resetPositions = useCallback(async () => {
