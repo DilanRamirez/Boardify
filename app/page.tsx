@@ -1,16 +1,11 @@
 "use client";
+// eslint-disable @typescript-eslint/no-explicit-any
+
 import { useState, useCallback } from "react";
 import { DraggableCard } from "@/components/draggable-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  RotateCcw,
-  Download,
-  ChevronDown,
-  ChevronUp,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, ZoomIn, ZoomOut } from "lucide-react";
 import React from "react";
 import { useCardLayout } from "@/hooks/use-card-layout";
 
@@ -79,8 +74,6 @@ const LayoutControls: React.FC<{
     toggleCollapse,
     cardCount,
     domainStats,
-    onReset,
-    onExport,
     onResetZoom,
     onZoomIn,
     onZoomOut,
@@ -113,66 +106,48 @@ const LayoutControls: React.FC<{
               <ChevronUp className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             )}
           </button>
+          {!isCollapsed && (
+            <>
+              <div className="flex gap-2" data-cy="control-buttons">
+                <div className="flex items-center gap-1">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={onZoomOut}
+                    className="text-xs bg-transparent"
+                    data-cy="zoom-out-button"
+                  >
+                    <ZoomOut className="w-3 h-3 mr-1" aria-hidden />-
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={onZoomIn}
+                    className="text-xs bg-transparent"
+                    data-cy="zoom-in-button"
+                  >
+                    <ZoomIn className="w-3 h-3 mr-1" aria-hidden />+
+                  </Button>
+                  <span className="text-xs ml-1">
+                    {Math.round(currentScale * 100)}%
+                  </span>
+                </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={onResetZoom}
+                  className="text-xs bg-transparent"
+                  data-cy="reset-zoom-button"
+                >
+                  Reset
+                </Button>
+              </div>
+            </>
+          )}
         </div>
-
         {!isCollapsed && (
           <>
             <DomainBadgeList stats={domainStats} />
-
-            <div className="flex gap-2" data-cy="control-buttons">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={onReset}
-                className="text-xs bg-transparent"
-                data-cy="reset-button"
-              >
-                <RotateCcw className="w-3 h-3 mr-1" aria-hidden />
-                Reset
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={onExport}
-                className="text-xs bg-transparent"
-                data-cy="export-button"
-              >
-                <Download className="w-3 h-3 mr-1" aria-hidden />
-                Export
-              </Button>
-              <div className="flex items-center gap-1">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={onZoomOut}
-                  className="text-xs bg-transparent"
-                  data-cy="zoom-out-button"
-                >
-                  <ZoomOut className="w-3 h-3 mr-1" aria-hidden />-
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={onZoomIn}
-                  className="text-xs bg-transparent"
-                  data-cy="zoom-in-button"
-                >
-                  <ZoomIn className="w-3 h-3 mr-1" aria-hidden />+
-                </Button>
-                <span className="text-xs ml-1">
-                  {Math.round(currentScale * 100)}%
-                </span>
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={onResetZoom}
-                className="text-xs bg-transparent"
-                data-cy="reset-zoom-button"
-              >
-                Reset Zoom
-              </Button>
-            </div>
           </>
         )}
       </div>
