@@ -25,25 +25,39 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const startDrag = (clientX: number, clientY: number) => {
     if (!cardRef.current) return;
-
     setIsDragging(true);
     const rect = cardRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    setDragOffset({ x: clientX - rect.left, y: clientY - rect.top });
+  };
 
-    // Prevent text selection while dragging
+  const handleMouseDown = (e: React.MouseEvent) => {
+    startDrag(e.clientX, e.clientY);
     e.preventDefault();
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 0) return;
+    startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    e.preventDefault();
+  };
 
-    const newX = e.clientX - dragOffset.x;
-    const newY = e.clientY - dragOffset.y;
+  const handleMove = (e: MouseEvent | TouchEvent) => {
+    if (!isDragging) return;
+    let clientX: number;
+    let clientY: number;
+    if (e instanceof TouchEvent) {
+      if (e.touches.length === 0) return;
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const newX = clientX - dragOffset.x;
+    const newY = clientY - dragOffset.y;
 
     // Ensure card stays within viewport bounds
     const maxX = window.innerWidth - 280; // Card width
@@ -53,29 +67,41 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
     const boundedY = Math.max(0, Math.min(newY, maxY));
 
     onPositionChange(card.id, boundedX, boundedY);
+    e.preventDefault();
   };
 
-  const handleMouseUp = () => {
+  const handleEnd = () => {
     setIsDragging(false);
   };
 
-  // Add global mouse event listeners when dragging
+  // Add global mouse and touch event listeners when dragging
   React.useEffect(() => {
     if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMove as any);
+      document.addEventListener("mouseup", handleEnd as any);
+      document.addEventListener("touchmove", handleMove as any, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleEnd as any);
+      document.addEventListener("touchcancel", handleEnd as any);
       document.body.style.cursor = "grabbing";
       document.body.style.userSelect = "none";
     } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handleMove as any);
+      document.removeEventListener("mouseup", handleEnd as any);
+      document.removeEventListener("touchmove", handleMove as any);
+      document.removeEventListener("touchend", handleEnd as any);
+      document.removeEventListener("touchcancel", handleEnd as any);
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
     }
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handleMove as any);
+      document.removeEventListener("mouseup", handleEnd as any);
+      document.removeEventListener("touchmove", handleMove as any);
+      document.removeEventListener("touchend", handleEnd as any);
+      document.removeEventListener("touchcancel", handleEnd as any);
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
     };
@@ -113,7 +139,7 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
   return (
     <Card
       ref={cardRef}
-      className={`absolute w-72 cursor-grab shadow-lg transition-shadow hover:shadow-xl dark:shadow-gray-800 ${
+      className={`absolute w-72 cursor-grab shadow-lg transition-shadow hover:shadow-xl dark:shadow-gray-800 gap-2 py-3 px-0 ${
         isDragging
           ? "shadow-2xl scale-105 cursor-grabbing dark:shadow-gray-700"
           : ""
@@ -122,11 +148,13 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
         left: card.x,
         top: card.y,
         zIndex: isDragging ? 1000 : 1,
+        touchAction: "none",
       }}
       onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
     >
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-semibold leading-tight mb-2">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold leading-tight">
           {card.title}
         </CardTitle>
         <Badge variant="secondary" className="text-[10px] w-fit">
