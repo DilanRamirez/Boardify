@@ -341,6 +341,8 @@ export default function DigitalCardboard() {
             key={card.id}
             card={card}
             onPositionChange={handlePositionChange}
+            scale={scale}
+            pan={pan}
           />
         ))}
 

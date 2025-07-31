@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "AWS Config",
-    "description": "Monitors and records config changes tracks what changed and when. Evaluates compliance & notifies you of any changes or compliance violations.",
+    "description": "Monitors and **records config changes** tracks what changed and when. <u>**Evaluates compliance**</u> & notifies you of any changes or **compliance violations**.",
     "domain": "Security & Compliance",
     "x": 300,
     "y": 276
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "title": "AWS Budgets",
-    "description": "Set spending or usage limits for services. Get alerts. Plan and monitor your spending or service usage. See your current usage, forecasted usage.",
+    "description": "Set <u>**spending or usage limits for services**</u>. Get alerts. Plan and **monitor your spending or service usage**. See your current usage, forecasted usage.",
     "domain": "Billing & Pricing",
     "x": 258,
     "y": 71
@@ -18,7 +18,7 @@
   {
     "id": 3,
     "title": "AWS CloudWatch",
-    "description": "Monitors metrics (CPU, memory, disk usage, latency). collects logs. Alerts you. Automate responses.",
+    "description": "<u>**Monitors metrics**</u> (<u>**CPU, memory, disk usage, latency**</u>). collects logs. Alerts you. Automate responses.",
     "domain": "Technology",
     "x": 140,
     "y": 175
@@ -26,7 +26,7 @@
   {
     "id": 4,
     "title": "CloudTrail",
-    "description": "logs all API activity in your AWS account. records account activity and API. help with auditing, compliance, and security.",
+    "description": "logs all <u>**API activity in your AWS account**</u>. records <u>**account activity and API**</u>. help with auditing, <u>**compliance**</u>, and security.",
     "domain": "Security & Compliance",
     "x": 201,
     "y": 156
@@ -34,7 +34,7 @@
   {
     "id": 5,
     "title": "Cost Explorer",
-    "description": "tool that shows AWS spending trends, breakdowns by service, and usage insights over time. By instance type, region, account, or tag.",
+    "description": "tool that shows <u>**AWS spending trends**</u>, breakdowns by service, and usage insights over time. <u>**By instance type, region, account, or tag**</u>.",
     "domain": "Billing & Pricing",
     "x": 442,
     "y": 163
@@ -42,7 +42,7 @@
   {
     "id": 6,
     "title": "ElastiCache",
-    "description": "in-memory caching service for fast data retrieval. accelerates database performance Quick answers for common requests.",
+    "description": "<u>**in-memory caching service**</u> for fast data retrieval. accelerates database performance Quick answers for common requests.",
     "domain": "Technology",
     "x": 145,
     "y": 246
@@ -50,7 +50,7 @@
   {
     "id": 7,
     "title": "S3 Standard",
-    "description": "High performance, low latency storage for frequently accessed ‘hot’ data. Best for active apps, content distribution, and big data analytic.",
+    "description": "<u>**High performance, low latency storage**</u> for frequently accessed ‘hot’ data. Best for active apps, content distribution, and <u>**big data analytic.**</u>",
     "domain": "Technology",
     "x": 181,
     "y": 278
@@ -58,7 +58,7 @@
   {
     "id": 8,
     "title": "S3 Intelligent Tiering",
-    "description": "Moves objects between frequent and infrequent tiers to optimize costs. No retrieval fees, for unpredictable access patterns.",
+    "description": "<u>**Moves objects between frequent and infrequent tiers**</u> to optimize costs. No retrieval fees, for <u>**unpredictable access patterns.**</u>",
     "domain": "Technology",
     "x": 88,
     "y": 126
@@ -66,7 +66,7 @@
   {
     "id": 9,
     "title": "S3 Standard-IA",
-    "description": "Infrequent access Low-cost storage for data accessed less often but needs fast retrieval. Good backups, disaster recovery, and infrequently used data.",
+    "description": "<u>**Infrequent access**</u> <u>**Low-cost storage**</u> for data accessed less often but <u>**needs fast retrieval**</u>. Good backups, disaster recovery, and <u>**infrequently used data.**</u>",
     "domain": "Technology",
     "x": 77,
     "y": 191
@@ -74,7 +74,7 @@
   {
     "id": 10,
     "title": "S3 Glacier Deep Archive",
-    "description": "Lowest cost for long-term retention and compliance. Best for archival, legal hold, and regulatory data.",
+    "description": "Lowest cost for <u>**long-term retention and compliance**</u>. Best for archival, legal hold, and <u>**regulatory data**</u>.",
     "domain": "Technology",
     "x": 434,
     "y": 121
@@ -82,7 +82,7 @@
   {
     "id": 11,
     "title": "AWS Inspector",
-    "description": "scans workloads for vulnerabilities. outdated software, misconfigurations, and risks. security assessment tool.",
+    "description": "scans <u>**workloads for vulnerabilities**</u>. outdated software, <u>**misconfigurations**</u>, and risks. <u>**security assessment tool**</u>.",
     "domain": "Security & Compliance",
     "x": 438,
     "y": 165
@@ -90,7 +90,7 @@
   {
     "id": 12,
     "title": "AWS Direct Connect",
-    "description": "provides a private connection between your on-prem and AWS. Private hallway to the cloud. Better perform, reliability, and lower latency.",
+    "description": "provides a <u>**private connection between your on-prem and AWS**</u>. Private hallway to the cloud. Better perform, reliability, and <u>**lower latency**</u>.",
     "domain": "Technology",
     "x": 257,
     "y": 188
@@ -98,7 +98,7 @@
   {
     "id": 13,
     "title": "Basic Support",
-    "description": "Free tier with access to whitepapers, documentation, forums, and 7 core Trusted Advisor checks. No technical case support, suitable for experimentation and learning.",
+    "description": "Free tier with access to <u>**whitepapers, documentation, forums, and 7 core Trusted Advisor checks**</u>. No technical case support, suitable for experimentation and learning.",
     "domain": "Billing & Pricing",
     "x": 333,
     "y": 83
@@ -106,7 +106,7 @@
   {
     "id": 14,
     "title": "Developer Support",
-    "description": "Business-hour technical support, general architecture guidance. 24-hour response time for general guidance; dev/test envs.",
+    "description": "<u>**Business-hour technical support**</u>, <u>**general architecture guidance**</u>. 24-hour response time for general guidance; dev/test envs.",
     "domain": "Billing & Pricing",
     "x": 141,
     "y": 125
@@ -114,7 +114,7 @@
   {
     "id": 15,
     "title": "Business Support",
-    "description": "Full Trusted Advisor checks, and third-party software integration help. ideal for production. respns for production issues;",
+    "description": "<u>**Full Trusted Advisor checks**</u>, and <u>**third-party software integration help**</u>. ideal for production. responses for production issues;",
     "domain": "Billing & Pricing",
     "x": 383,
     "y": 236
@@ -122,7 +122,7 @@
   {
     "id": 16,
     "title": "Enterprise On-Ramp Support",
-    "description": "TAM pool access, cost optimization workshops, and limited proactive architecture reviews. Best for organizations scaling toward enterprise operations.",
+    "description": "<u>**TAM pool access**</u>, <u>**cost optimization workshops**</u>, and <u>**limited proactive architecture reviews**</u>. Best for organizations scaling toward enterprise operations.",
     "domain": "Billing & Pricing",
     "x": 468,
     "y": 97
@@ -130,7 +130,7 @@
   {
     "id": 17,
     "title": "Enterprise Support",
-    "description": "Highest tier with a dedicated TAM (Technical Account Manager), proactive architecture guidance, operations reviews, and 15-min response for critical issues. Best for mission-critical workloads.",
+    "description": "Highest tier with a <u>**dedicated TAM (Technical Account Manager)**</u>, <u>**proactive architecture guidance**</u>, operations reviews, and  <u>**15-min response for critical issues**</u>. Best for mission-critical workloads.",
     "domain": "Billing & Pricing",
     "x": 262,
     "y": 222
@@ -138,7 +138,7 @@
   {
     "id": 18,
     "title": "IAM Roles",
-    "description": "Grant temporary permissions to users or services. Used for cross-account access or service-to-service interactions.",
+    "description": "Grant <u>**temporary permissions to users or services**</u>. Used for <u>**cross-account access or service-to-service interactions**</u>.",
     "domain": "Security & Compliance",
     "x": 458,
     "y": 224
@@ -146,7 +146,7 @@
   {
     "id": 19,
     "title": "IAM Groups",
-    "description": "A container for users. Organize users and apply IAM policies at the group level for consistent permissions.",
+    "description": "A container for users. <u>**Organize users and apply IAM policies at the group level for consistent permissions**</u>.",
     "domain": "Security & Compliance",
     "x": 361,
     "y": 161
@@ -154,7 +154,7 @@
   {
     "id": 20,
     "title": "IAM Policies",
-    "description": "Grant or deny specific permissions to users, groups, or roles. Define what actions and resources are allowed.",
+    "description": "<u>**Grant or deny specific permissions to users, groups, or roles.**</u> Define what actions and resources are allowed.",
     "domain": "Security & Compliance",
     "x": 143,
     "y": 251
@@ -162,7 +162,7 @@
   {
     "id": 21,
     "title": "Service Control Policies (SCPs)",
-    "description": "Organization-wide guardrails in AWS Organizations. Restrict what actions are possible across accounts, even if IAM policies allow them.",
+    "description": "Organization-wide guardrails in AWS Organizations. <u>**Restrict what actions are possible across accounts, even if IAM policies allow them.**</u>",
     "domain": "Security & Compliance",
     "x": 351,
     "y": 252
@@ -170,7 +170,7 @@
   {
     "id": 22,
     "title": "Security Groups",
-    "description": "Stateful firewalls for individual EC2 instances. Automatically allow return traffic for allowed inbound requests.",
+    "description": "<u>**Stateful firewalls for individual EC2 instances.**</u> Automatically allow <u>**return traffic for allowed inbound requests.**</u>",
     "domain": "Security & Compliance",
     "x": 403,
     "y": 233
@@ -178,7 +178,7 @@
   {
     "id": 23,
     "title": "Network ACLs (NACLs)",
-    "description": "Stateless firewalls for entire subnets. Require explicit rules for inbound and outbound traffic.",
+    "description": "<u>**Stateless firewalls for entire subnets.**</u> Require explicit rules for <u>**inbound and outbound traffic.**</u>",
     "domain": "Security & Compliance",
     "x": 267,
     "y": 185
@@ -186,7 +186,7 @@
   {
     "id": 24,
     "title": "Read Replicas",
-    "description": "Improve read performance of a database by creating replicas. Ideal for scaling read-heavy workloads horizontally.",
+    "description": "<u>**Improve read performance of a database by creating replicas.**</u> Ideal for scaling read-heavy workloads horizontally.",
     "domain": "Technology",
     "x": 198,
     "y": 193
@@ -194,7 +194,7 @@
   {
     "id": 25,
     "title": "AWS Global Accelerator",
-    "description": "Create accelerators to improve the performance of your applications for local and global users. Optimizes network paths for TCP and UDP traffic low latency and high availability.",
+    "description": "Create accelerators to improve the performance of your applications for local and global users. <u>**Create IPs**</u> <u>**Optimizes network paths for TCP and UDP traffic**</u> low latency and high availability.",
     "domain": "Technology",
     "x": 129,
     "y": 173
@@ -202,7 +202,7 @@
   {
     "id": 26,
     "title": "Amazon Macie",
-    "description": "A security service that uses machine learning to automatically find and protect sensitive data, such as personally identifiable information (PII) stored in Amazon S3.",
+    "description": "A security service that uses <u>**machine learning to automatically find and protect sensitive data**</u>, such as personally identifiable information (PII) <u>**stored in Amazon S3.**</u>",
     "domain": "Security & Compliance",
     "x": 458,
     "y": 169
@@ -210,7 +210,7 @@
   {
     "id": 27,
     "title": "Amazon Aurora",
-    "description": "A relational database that is compatible with MySQL and PostgreSQL, but faster and more scalable.Automatically replicates data across multiple AZ for high availability.",
+    "description": "A <u>**relational database**</u> that is compatible with <u>**MySQL and PostgreSQL**</u>, but faster and more scalable. <u>**Automatically replicates data**</u> across multiple AZ for high availability.",
     "domain": "Technology",
     "x": 237,
     "y": 193
@@ -218,7 +218,7 @@
   {
     "id": 28,
     "title": "AWS Certificate Manager",
-    "description": "Manages SSL/TLS certificates to secure websites or applications. Provisions, deploys, and renews certificates.",
+    "description": "<u>**Manages SSL/TLS certificates**</u> to secure websites or applications. Provisions, deploys, and <u>**renews certificates.**</u>",
     "domain": "Security & Compliance",
     "x": 340,
     "y": 233
@@ -226,7 +226,7 @@
   {
     "id": 29,
     "title": "AWS Application Migration Service",
-    "description": "Helps migrate applications from on-premises to AWS with minimal downtime. Replicates servers in AWS and automates migration without re-architecting apps.",
+    "description": "Helps <u>**migrate applications from on-premises to AWS**</u> with minimal downtime. <u>**Replicates servers in AWS**</u> and automates migration without re-architecting apps.",
     "domain": "Technology",
     "x": 253,
     "y": 210
@@ -234,7 +234,7 @@
   {
     "id": 30,
     "title": "AWS Systems Manager",
-    "description": "A tool to manage and automate tasks across AWS resources. Centralized dashboard for patching, running scripts, viewing logs, and inventory management.",
+    "description": "A tool to manage and <u>**automate tasks across AWS resources.**</u> Centralized <u>**dashboard for patching**</u>, running scripts, viewing logs, and inventory management.",
     "domain": "Technology",
     "x": 499,
     "y": 165
@@ -242,7 +242,7 @@
   {
     "id": 31,
     "title": "AWS Service Catalog",
-    "description": "Lets organizations create and manage approved AWS resource templates. Helps enforce compliance and standardize deployments for teams.",
+    "description": "Lets <u>**organizations create and manage AWS resource templates**</u>. Helps <u>**enforce compliance**</u> and standardize deployments for teams.",
     "domain": "Technology",
     "x": 255,
     "y": 118
@@ -250,7 +250,7 @@
   {
     "id": 32,
     "title": "AWS Artifact",
-    "description": "A portal for compliance reports and agreements. Download documents like ISO certifications or SOC audit reports for auditing purposes.",
+    "description": "A <u>**portal for compliance reports and agreements.**</u> Download documents like ISO certifications or SOC <u>**audit reports**</u> for auditing purposes.",
     "domain": "Security & Compliance",
     "x": 457,
     "y": 211
@@ -258,7 +258,7 @@
   {
     "id": 33,
     "title": "AWS Shield",
-    "description": "A DDoS protection service that automatically protects AWS resources. Shield Standard: Free and automatic protection. Shield Advanced: Extra protection with 24/7 AWS security team support.",
+    "description": "A <u>**DDoS protection service**</u> that automatically <u>**protects AWS resources**</u>. Shield Standard: Free and automatic protection. Shield Advanced: Extra protection with 24/7 AWS security team support.",
     "domain": "Security & Compliance",
     "x": 264,
     "y": 141
@@ -266,7 +266,7 @@
   {
     "id": 34,
     "title": "Amazon Kinesis",
-    "description": "Enables real-time processing and analysis of streaming data. Collect, process, and analyze real-time data. low latency and flexible consumption patterns.",
+    "description": "Enables <u>**real-time processing and analysis of streaming data.**</u> Collect, process, and analyze real-time data. <u>**low latency and flexible consumption patterns.**</u>",
     "domain": "Technology",
     "x": 433,
     "y": 57
@@ -274,7 +274,7 @@
   {
     "id": 35,
     "title": "AWS Well-Architected Tool",
-    "description": "A tool to review workloads against AWS best practices. Based on the Well-Architected Framework’s 6 pillars. Identifies risks and offers improvement guidance.",
+    "description": "A tool to <u>**review workloads against AWS best practices.**</u> Based on the Well-Architected Framework’s 6 pillars. <u>**Identifies risks and offers improvement guidance.**</u>",
     "domain": "Cloud Concepts",
     "x": 303,
     "y": 219
@@ -282,7 +282,7 @@
   {
     "id": 36,
     "title": "Operational Excellence",
-    "description": "Running workloads efficiently and improving processes over time. Automate operations, monitor systems, respond to events quickly.",
+    "description": "Running <u>**workloads efficiently**</u> and <u>**improving processes over time.**</u> Automate operations, monitor systems, <u>**respond to events quickly.**</u>",
     "domain": "Cloud Concepts",
     "x": 148,
     "y": 233
@@ -290,7 +290,7 @@
   {
     "id": 37,
     "title": "Security",
-    "description": "Protecting data, systems, and assets. Implement IAM, encryption, and logging. Least privilege access.",
+    "description": "<u>**Protecting data, systems, and assets.**</u> Implement IAM, encryption, and logging. <u>**Least privilege access.**</u>",
     "domain": "Security & Compliance",
     "x": 266,
     "y": 287
@@ -298,7 +298,7 @@
   {
     "id": 38,
     "title": "Reliability",
-    "description": "Ensuring workloads perform correctly and recover quickly from failures. Design for high availability and automatic recovery.",
+    "description": "Ensuring <u>**workloads perform correctly and recover quickly from failures.**</u> Design for <u>**high availability and automatic recovery.**</u>",
     "domain": "Cloud Concepts",
     "x": 376,
     "y": 231
@@ -306,7 +306,7 @@
   {
     "id": 39,
     "title": "Performance Efficiency",
-    "description": "Using computing resources efficiently and scaling as needed. Choose the right instance types, use auto-scaling, and leverage managed services.",
+    "description": "Using computing resources <u>**efficiently and scaling as needed.**</u> Choose the <u>**right instance types, use auto-scaling, and leverage managed services.**</u>",
     "domain": "Cloud Concepts",
     "x": 74,
     "y": 91
@@ -314,7 +314,7 @@
   {
     "id": 40,
     "title": "Cost Optimization",
-    "description": "Reducing unnecessary costs and optimizing spending. Pay only for what you use, use Spot/Reserved instances, monitor spending.",
+    "description": "Reducing <u>**unnecessary costs and optimizing spending.**</u> Pay only for what you use, use <u>**Spot/Reserved instances, monitor spending.**</u>",
     "domain": "Cloud Concepts",
     "x": 341,
     "y": 159
@@ -322,7 +322,7 @@
   {
     "id": 41,
     "title": "Sustainability",
-    "description": "Reducing environmental impact of cloud workloads. Optimize for energy efficiency, reduce unused resources.",
+    "description": "<u>**Reducing environmental impact of cloud workloads.**</u> Optimize for energy efficiency, <u>**reduce unused resources.**</u>",
     "domain": "Cloud Concepts",
     "x": 141,
     "y": 127
@@ -330,7 +330,7 @@
   {
     "id": 42,
     "title": "AWS WAF (Web Application Firewall)",
-    "description": "Protecting web applications from common exploits and attacks. (e.g., block SQL injection, XSS). Works with Amazon CloudFront, ALB, and API Gateway.",
+    "description": "<u>**Protecting web applications from common exploits and attacks.**</u> (e.g., block <u>**SQL injection, XSS**</u>). Works with Amazon CloudFront, ALB, and API Gateway.",
     "domain": "Security & Compliance",
     "x": 190,
     "y": 263
@@ -338,7 +338,7 @@
   {
     "id": 43,
     "title": "Amazon Machine Image",
-    "description": "a template used to launch Amazon EC2 instances (virtual servers) in the AWS cloud. a blueprint, containing the operating system, applications, and configuration settings needed for a server to run.",
+    "description": "a template used to <u>**launch Amazon EC2 instances (virtual servers) in the AWS cloud.**</u> a <u>**blueprint**</u>, containing the operating system, applications, and configuration settings needed for a server to run.",
     "domain": "Technology",
     "x": 312,
     "y": 123

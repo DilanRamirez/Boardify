@@ -3,8 +3,11 @@
 
 import React from "react";
 import { useState, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 interface CardData {
   id: number;
@@ -17,10 +20,17 @@ interface CardData {
 
 interface DraggableCardProps {
   card: CardData;
+  scale: number;
+  pan: { x: number; y: number };
   onPositionChange: (id: number, x: number, y: number) => void;
 }
 
-export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
+export function DraggableCard({
+  card,
+  scale,
+  pan,
+  onPositionChange,
+}: DraggableCardProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
@@ -59,12 +69,23 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
     const newX = clientX - dragOffset.x;
     const newY = clientY - dragOffset.y;
 
-    // Ensure card stays within viewport bounds
-    const maxX = window.innerWidth - 280; // Card width
-    const maxY = window.innerHeight - 200; // Approximate card height
+    const cardWidth = 280; // should match the visual card width
+    const cardHeight = 200; // approximate card height used previously
 
-    const boundedX = Math.max(0, Math.min(newX, maxX));
-    const boundedY = Math.max(0, Math.min(newY, maxY));
+    // Compute world-space bounds so after transform (scale + pan) the card stays in viewport
+    const minXWorld = Math.max(0, -pan.x / scale);
+    const minYWorld = Math.max(0, -pan.y / scale);
+    const maxXWorld = Math.max(
+      minXWorld,
+      (window.innerWidth - cardWidth * scale - pan.x) / scale,
+    );
+    const maxYWorld = Math.max(
+      minYWorld,
+      (window.innerHeight - cardHeight * scale - pan.y) / scale,
+    );
+
+    const boundedX = Math.max(minXWorld, Math.min(newX, maxXWorld));
+    const boundedY = Math.max(minYWorld, Math.min(newY, maxYWorld));
 
     onPositionChange(card.id, boundedX, boundedY);
     e.preventDefault();
@@ -154,7 +175,7 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
       onTouchStart={handleTouchStart}
     >
       <CardHeader>
-        <CardTitle className="text-lg font-semibold leading-tight">
+        <CardTitle className="text-lg font-bold leading-tight">
           {card.title}
         </CardTitle>
         <Badge variant="secondary" className="text-[10px] w-fit">
@@ -162,9 +183,17 @@ export function DraggableCard({ card, onPositionChange }: DraggableCardProps) {
         </Badge>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-          {card.description}
-        </p>
+        <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              u: ({ node, ...props }) => <u {...props} />,
+            }}
+          >
+            {card.description}
+          </ReactMarkdown>
+        </div>
       </CardContent>
     </Card>
   );
