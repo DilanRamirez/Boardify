@@ -32,7 +32,7 @@ export function DraggableCard({
   onPositionChange,
 }: DraggableCardProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const dragOffsetRef = useRef({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
   const startDrag = (clientX: number, clientY: number) => {
@@ -40,37 +40,27 @@ export function DraggableCard({
     setIsDragging(true);
     const worldX = (clientX - pan.x) / scale;
     const worldY = (clientY - pan.y) / scale;
-    setDragOffset({ x: worldX - card.x, y: worldY - card.y });
+    dragOffsetRef.current = { x: worldX - card.x, y: worldY - card.y };
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     startDrag(e.clientX, e.clientY);
-    e.preventDefault();
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 0) return;
-    startDrag(e.touches[0].clientX, e.touches[0].clientY);
-    e.preventDefault();
-  };
-
-  const handleMove = (e: MouseEvent | TouchEvent) => {
-    if (!isDragging) return;
-    let clientX: number;
-    let clientY: number;
-    if (e instanceof TouchEvent) {
-      if (e.touches.length === 0) return;
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
+    if (cardRef.current) {
+      cardRef.current.setPointerCapture(e.pointerId);
     }
+    e.preventDefault();
+  };
+
+  const handleMove = (e: PointerEvent) => {
+    if (!isDragging) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
     const worldX = (clientX - pan.x) / scale;
     const worldY = (clientY - pan.y) / scale;
-    const newX = worldX - dragOffset.x;
-    const newY = worldY - dragOffset.y;
+    const { x: dragOffsetX, y: dragOffsetY } = dragOffsetRef.current;
+    const newX = worldX - dragOffsetX;
+    const newY = worldY - dragOffsetY;
 
     const cardWidth = 280; // should match the visual card width
     const cardHeight = 200; // approximate card height used previously
@@ -80,11 +70,11 @@ export function DraggableCard({
     const minYWorld = -pan.y / scale;
     const maxXWorld = Math.max(
       minXWorld,
-      (window.innerWidth - cardWidth * scale - pan.x) / scale,
+      (window.innerWidth - cardWidth * scale - pan.x) / scale
     );
     const maxYWorld = Math.max(
       minYWorld,
-      (window.innerHeight - cardHeight * scale - pan.y) / scale,
+      (window.innerHeight - cardHeight * scale - pan.y) / scale
     );
 
     const boundedX = Math.max(minXWorld, Math.min(newX, maxXWorld));
@@ -98,38 +88,30 @@ export function DraggableCard({
     setIsDragging(false);
   };
 
-  // Add global mouse and touch event listeners when dragging
+  // Add global pointer event listeners when dragging
   React.useEffect(() => {
     if (isDragging) {
-      document.addEventListener("mousemove", handleMove as any);
-      document.addEventListener("mouseup", handleEnd as any);
-      document.addEventListener("touchmove", handleMove as any, {
-        passive: false,
-      });
-      document.addEventListener("touchend", handleEnd as any);
-      document.addEventListener("touchcancel", handleEnd as any);
+      document.addEventListener("pointermove", handleMove as any);
+      document.addEventListener("pointerup", handleEnd as any);
+      document.addEventListener("pointercancel", handleEnd as any);
       document.body.style.cursor = "grabbing";
       document.body.style.userSelect = "none";
     } else {
-      document.removeEventListener("mousemove", handleMove as any);
-      document.removeEventListener("mouseup", handleEnd as any);
-      document.removeEventListener("touchmove", handleMove as any);
-      document.removeEventListener("touchend", handleEnd as any);
-      document.removeEventListener("touchcancel", handleEnd as any);
+      document.removeEventListener("pointermove", handleMove as any);
+      document.removeEventListener("pointerup", handleEnd as any);
+      document.removeEventListener("pointercancel", handleEnd as any);
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
     }
 
     return () => {
-      document.removeEventListener("mousemove", handleMove as any);
-      document.removeEventListener("mouseup", handleEnd as any);
-      document.removeEventListener("touchmove", handleMove as any);
-      document.removeEventListener("touchend", handleEnd as any);
-      document.removeEventListener("touchcancel", handleEnd as any);
+      document.removeEventListener("pointermove", handleMove as any);
+      document.removeEventListener("pointerup", handleEnd as any);
+      document.removeEventListener("pointercancel", handleEnd as any);
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
     };
-  }, [isDragging, dragOffset]);
+  }, [isDragging]);
 
   const getDomainColor = (domain: string) => {
     const colors: Record<string, string> = {
@@ -174,8 +156,7 @@ export function DraggableCard({
         zIndex: isDragging ? 1000 : 1,
         touchAction: "none",
       }}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
+      onPointerDown={handlePointerDown}
     >
       <CardHeader>
         <CardTitle className="text-lg font-bold leading-tight">
