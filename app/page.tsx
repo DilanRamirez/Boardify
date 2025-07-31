@@ -242,7 +242,7 @@ const LoadingView = () => (
     <div className="text-center" data-cy="loading-state">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 dark:border-amber-400 mx-auto mb-4"></div>
       <p className="text-amber-800 dark:text-amber-200">
-        Loading your digital cardboard...
+        Loading your Boardify...
       </p>
     </div>
   </div>
@@ -308,7 +308,7 @@ const LayoutControls: React.FC<{
             style={{ border: "none", background: "none" }}
           >
             <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-              Digital Cardboard
+              Boardify
             </h1>
             <Badge
               variant="outline"

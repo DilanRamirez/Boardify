@@ -5,7 +5,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Digital Cardboard App",
+  title: "Boardify App",
   description: "A digital alternative to physical concept boards",
   generator: "v0.dev",
   manifest: "/manifest.json",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Digital Cardboard",
+    title: "Boardify",
   },
 };
 
@@ -34,7 +34,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Digital Cardboard" />
+        <meta name="apple-mobile-web-app-title" content="Boardify" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <style>{`
 html {
