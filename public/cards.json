@@ -1,0 +1,346 @@
+[
+  {
+    "id": 1,
+    "title": "AWS Config",
+    "description": "Monitors and records config changes tracks what changed and when. Evaluates compliance & notifies you of any changes or compliance violations.",
+    "domain": "Security & Compliance",
+    "x": 300,
+    "y": 276
+  },
+  {
+    "id": 2,
+    "title": "AWS Budgets",
+    "description": "Set spending or usage limits for services. Get alerts. Plan and monitor your spending or service usage. See your current usage, forecasted usage.",
+    "domain": "Billing & Pricing",
+    "x": 258,
+    "y": 71
+  },
+  {
+    "id": 3,
+    "title": "AWS CloudWatch",
+    "description": "Monitors metrics (CPU, memory, disk usage, latency). collects logs. Alerts you. Automate responses.",
+    "domain": "Technology",
+    "x": 140,
+    "y": 175
+  },
+  {
+    "id": 4,
+    "title": "CloudTrail",
+    "description": "logs all API activity in your AWS account. records account activity and API. help with auditing, compliance, and security.",
+    "domain": "Security & Compliance",
+    "x": 201,
+    "y": 156
+  },
+  {
+    "id": 5,
+    "title": "Cost Explorer",
+    "description": "tool that shows AWS spending trends, breakdowns by service, and usage insights over time. By instance type, region, account, or tag.",
+    "domain": "Billing & Pricing",
+    "x": 442,
+    "y": 163
+  },
+  {
+    "id": 6,
+    "title": "ElastiCache",
+    "description": "in-memory caching service for fast data retrieval. accelerates database performance Quick answers for common requests.",
+    "domain": "Technology",
+    "x": 145,
+    "y": 246
+  },
+  {
+    "id": 7,
+    "title": "S3 Standard",
+    "description": "High performance, low latency storage for frequently accessed ‘hot’ data. Best for active apps, content distribution, and big data analytic.",
+    "domain": "Technology",
+    "x": 181,
+    "y": 278
+  },
+  {
+    "id": 8,
+    "title": "S3 Intelligent Tiering",
+    "description": "Moves objects between frequent and infrequent tiers to optimize costs. No retrieval fees, for unpredictable access patterns.",
+    "domain": "Technology",
+    "x": 88,
+    "y": 126
+  },
+  {
+    "id": 9,
+    "title": "S3 Standard-IA",
+    "description": "Infrequent access Low-cost storage for data accessed less often but needs fast retrieval. Good backups, disaster recovery, and infrequently used data.",
+    "domain": "Technology",
+    "x": 77,
+    "y": 191
+  },
+  {
+    "id": 10,
+    "title": "S3 Glacier Deep Archive",
+    "description": "Lowest cost for long-term retention and compliance. Best for archival, legal hold, and regulatory data.",
+    "domain": "Technology",
+    "x": 434,
+    "y": 121
+  },
+  {
+    "id": 11,
+    "title": "AWS Inspector",
+    "description": "scans workloads for vulnerabilities. outdated software, misconfigurations, and risks. security assessment tool.",
+    "domain": "Security & Compliance",
+    "x": 438,
+    "y": 165
+  },
+  {
+    "id": 12,
+    "title": "AWS Direct Connect",
+    "description": "provides a private connection between your on-prem and AWS. Private hallway to the cloud. Better perform, reliability, and lower latency.",
+    "domain": "Technology",
+    "x": 257,
+    "y": 188
+  },
+  {
+    "id": 13,
+    "title": "Basic Support",
+    "description": "Free tier with access to whitepapers, documentation, forums, and 7 core Trusted Advisor checks. No technical case support, suitable for experimentation and learning.",
+    "domain": "Billing & Pricing",
+    "x": 333,
+    "y": 83
+  },
+  {
+    "id": 14,
+    "title": "Developer Support",
+    "description": "Business-hour technical support, general architecture guidance. 24-hour response time for general guidance; dev/test envs.",
+    "domain": "Billing & Pricing",
+    "x": 141,
+    "y": 125
+  },
+  {
+    "id": 15,
+    "title": "Business Support",
+    "description": "Full Trusted Advisor checks, and third-party software integration help. ideal for production. respns for production issues;",
+    "domain": "Billing & Pricing",
+    "x": 383,
+    "y": 236
+  },
+  {
+    "id": 16,
+    "title": "Enterprise On-Ramp Support",
+    "description": "TAM pool access, cost optimization workshops, and limited proactive architecture reviews. Best for organizations scaling toward enterprise operations.",
+    "domain": "Billing & Pricing",
+    "x": 468,
+    "y": 97
+  },
+  {
+    "id": 17,
+    "title": "Enterprise Support",
+    "description": "Highest tier with a dedicated TAM (Technical Account Manager), proactive architecture guidance, operations reviews, and 15-min response for critical issues. Best for mission-critical workloads.",
+    "domain": "Billing & Pricing",
+    "x": 262,
+    "y": 222
+  },
+  {
+    "id": 18,
+    "title": "IAM Roles",
+    "description": "Grant temporary permissions to users or services. Used for cross-account access or service-to-service interactions.",
+    "domain": "Security & Compliance",
+    "x": 458,
+    "y": 224
+  },
+  {
+    "id": 19,
+    "title": "IAM Groups",
+    "description": "A container for users. Organize users and apply IAM policies at the group level for consistent permissions.",
+    "domain": "Security & Compliance",
+    "x": 361,
+    "y": 161
+  },
+  {
+    "id": 20,
+    "title": "IAM Policies",
+    "description": "Grant or deny specific permissions to users, groups, or roles. Define what actions and resources are allowed.",
+    "domain": "Security & Compliance",
+    "x": 143,
+    "y": 251
+  },
+  {
+    "id": 21,
+    "title": "Service Control Policies (SCPs)",
+    "description": "Organization-wide guardrails in AWS Organizations. Restrict what actions are possible across accounts, even if IAM policies allow them.",
+    "domain": "Security & Compliance",
+    "x": 351,
+    "y": 252
+  },
+  {
+    "id": 22,
+    "title": "Security Groups",
+    "description": "Stateful firewalls for individual EC2 instances. Automatically allow return traffic for allowed inbound requests.",
+    "domain": "Security & Compliance",
+    "x": 403,
+    "y": 233
+  },
+  {
+    "id": 23,
+    "title": "Network ACLs (NACLs)",
+    "description": "Stateless firewalls for entire subnets. Require explicit rules for inbound and outbound traffic.",
+    "domain": "Security & Compliance",
+    "x": 267,
+    "y": 185
+  },
+  {
+    "id": 24,
+    "title": "Read Replicas",
+    "description": "Improve read performance of a database by creating replicas. Ideal for scaling read-heavy workloads horizontally.",
+    "domain": "Technology",
+    "x": 198,
+    "y": 193
+  },
+  {
+    "id": 25,
+    "title": "AWS Global Accelerator",
+    "description": "Create accelerators to improve the performance of your applications for local and global users. Optimizes network paths for TCP and UDP traffic low latency and high availability.",
+    "domain": "Technology",
+    "x": 129,
+    "y": 173
+  },
+  {
+    "id": 26,
+    "title": "Amazon Macie",
+    "description": "A security service that uses machine learning to automatically find and protect sensitive data, such as personally identifiable information (PII) stored in Amazon S3.",
+    "domain": "Security & Compliance",
+    "x": 458,
+    "y": 169
+  },
+  {
+    "id": 27,
+    "title": "Amazon Aurora",
+    "description": "A relational database that is compatible with MySQL and PostgreSQL, but faster and more scalable.Automatically replicates data across multiple AZ for high availability.",
+    "domain": "Technology",
+    "x": 237,
+    "y": 193
+  },
+  {
+    "id": 28,
+    "title": "AWS Certificate Manager",
+    "description": "Manages SSL/TLS certificates to secure websites or applications. Provisions, deploys, and renews certificates.",
+    "domain": "Security & Compliance",
+    "x": 340,
+    "y": 233
+  },
+  {
+    "id": 29,
+    "title": "AWS Application Migration Service",
+    "description": "Helps migrate applications from on-premises to AWS with minimal downtime. Replicates servers in AWS and automates migration without re-architecting apps.",
+    "domain": "Technology",
+    "x": 253,
+    "y": 210
+  },
+  {
+    "id": 30,
+    "title": "AWS Systems Manager",
+    "description": "A tool to manage and automate tasks across AWS resources. Centralized dashboard for patching, running scripts, viewing logs, and inventory management.",
+    "domain": "Technology",
+    "x": 499,
+    "y": 165
+  },
+  {
+    "id": 31,
+    "title": "AWS Service Catalog",
+    "description": "Lets organizations create and manage approved AWS resource templates. Helps enforce compliance and standardize deployments for teams.",
+    "domain": "Technology",
+    "x": 255,
+    "y": 118
+  },
+  {
+    "id": 32,
+    "title": "AWS Artifact",
+    "description": "A portal for compliance reports and agreements. Download documents like ISO certifications or SOC audit reports for auditing purposes.",
+    "domain": "Security & Compliance",
+    "x": 457,
+    "y": 211
+  },
+  {
+    "id": 33,
+    "title": "AWS Shield",
+    "description": "A DDoS protection service that automatically protects AWS resources. Shield Standard: Free and automatic protection. Shield Advanced: Extra protection with 24/7 AWS security team support.",
+    "domain": "Security & Compliance",
+    "x": 264,
+    "y": 141
+  },
+  {
+    "id": 34,
+    "title": "Amazon Kinesis",
+    "description": "Enables real-time processing and analysis of streaming data. Collect, process, and analyze real-time data. low latency and flexible consumption patterns.",
+    "domain": "Technology",
+    "x": 433,
+    "y": 57
+  },
+  {
+    "id": 35,
+    "title": "AWS Well-Architected Tool",
+    "description": "A tool to review workloads against AWS best practices. Based on the Well-Architected Framework’s 6 pillars. Identifies risks and offers improvement guidance.",
+    "domain": "Cloud Concepts",
+    "x": 303,
+    "y": 219
+  },
+  {
+    "id": 36,
+    "title": "Operational Excellence",
+    "description": "Running workloads efficiently and improving processes over time. Automate operations, monitor systems, respond to events quickly.",
+    "domain": "Cloud Concepts",
+    "x": 148,
+    "y": 233
+  },
+  {
+    "id": 37,
+    "title": "Security",
+    "description": "Protecting data, systems, and assets. Implement IAM, encryption, and logging. Least privilege access.",
+    "domain": "Security & Compliance",
+    "x": 266,
+    "y": 287
+  },
+  {
+    "id": 38,
+    "title": "Reliability",
+    "description": "Ensuring workloads perform correctly and recover quickly from failures. Design for high availability and automatic recovery.",
+    "domain": "Cloud Concepts",
+    "x": 376,
+    "y": 231
+  },
+  {
+    "id": 39,
+    "title": "Performance Efficiency",
+    "description": "Using computing resources efficiently and scaling as needed. Choose the right instance types, use auto-scaling, and leverage managed services.",
+    "domain": "Cloud Concepts",
+    "x": 74,
+    "y": 91
+  },
+  {
+    "id": 40,
+    "title": "Cost Optimization",
+    "description": "Reducing unnecessary costs and optimizing spending. Pay only for what you use, use Spot/Reserved instances, monitor spending.",
+    "domain": "Cloud Concepts",
+    "x": 341,
+    "y": 159
+  },
+  {
+    "id": 41,
+    "title": "Sustainability",
+    "description": "Reducing environmental impact of cloud workloads. Optimize for energy efficiency, reduce unused resources.",
+    "domain": "Cloud Concepts",
+    "x": 141,
+    "y": 127
+  },
+  {
+    "id": 42,
+    "title": "AWS WAF (Web Application Firewall)",
+    "description": "Protecting web applications from common exploits and attacks. (e.g., block SQL injection, XSS). Works with Amazon CloudFront, ALB, and API Gateway.",
+    "domain": "Security & Compliance",
+    "x": 190,
+    "y": 263
+  },
+  {
+    "id": 43,
+    "title": "Amazon Machine Image",
+    "description": "a template used to launch Amazon EC2 instances (virtual servers) in the AWS cloud. a blueprint, containing the operating system, applications, and configuration settings needed for a server to run.",
+    "domain": "Technology",
+    "x": 312,
+    "y": 123
+  }
+]
