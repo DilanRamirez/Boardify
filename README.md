@@ -8,6 +8,8 @@
 
 https://jolly-plant-01ab0c410.2.azurestaticapps.net
 
+![Boardify App Screenshot](public/app.png)
+
 ## Why I Built It
 
 I built Boardify to demonstrate how to combine a polished interactive UX (drag, touch, zoom, pan) with solid engineering practices: resilient loading, responsive design, unified input handling, and graceful recovery from deployment edge cases like stale service worker cache mismatches. It’s a showcase of both frontend craftsmanship and thoughtful system design.
