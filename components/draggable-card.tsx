@@ -38,8 +38,9 @@ export function DraggableCard({
   const startDrag = (clientX: number, clientY: number) => {
     if (!cardRef.current) return;
     setIsDragging(true);
-    const rect = cardRef.current.getBoundingClientRect();
-    setDragOffset({ x: clientX - rect.left, y: clientY - rect.top });
+    const worldX = (clientX - pan.x) / scale;
+    const worldY = (clientY - pan.y) / scale;
+    setDragOffset({ x: worldX - card.x, y: worldY - card.y });
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -66,15 +67,17 @@ export function DraggableCard({
       clientY = e.clientY;
     }
 
-    const newX = clientX - dragOffset.x;
-    const newY = clientY - dragOffset.y;
+    const worldX = (clientX - pan.x) / scale;
+    const worldY = (clientY - pan.y) / scale;
+    const newX = worldX - dragOffset.x;
+    const newY = worldY - dragOffset.y;
 
     const cardWidth = 280; // should match the visual card width
     const cardHeight = 200; // approximate card height used previously
 
     // Compute world-space bounds so after transform (scale + pan) the card stays in viewport
-    const minXWorld = Math.max(0, -pan.x / scale);
-    const minYWorld = Math.max(0, -pan.y / scale);
+    const minXWorld = -pan.x / scale;
+    const minYWorld = -pan.y / scale;
     const maxXWorld = Math.max(
       minXWorld,
       (window.innerWidth - cardWidth * scale - pan.x) / scale,
@@ -188,7 +191,7 @@ export function DraggableCard({
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
-              u: ({ node, ...props }) => <u {...props} />,
+              u: (props) => <u {...props} />,
             }}
           >
             {card.description}

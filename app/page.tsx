@@ -177,11 +177,52 @@ export default function DigitalCardboard() {
 
   const [scale, setScale] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const saveViewTimeoutRef = React.useRef<number | null>(null);
+
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const MIN_SCALE = 0.2;
   const MAX_SCALE = 3;
   const clamp = (v: number, min: number, max: number) =>
     Math.max(min, Math.min(max, v));
+
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem("boardify_view");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (typeof parsed.scale === "number") {
+          setScale(clamp(parsed.scale, MIN_SCALE, MAX_SCALE));
+        }
+        if (
+          parsed.pan &&
+          typeof parsed.pan.x === "number" &&
+          typeof parsed.pan.y === "number"
+        ) {
+          setPan(parsed.pan);
+        }
+      }
+    } catch {
+      // ignore malformed or unavailable storage
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (saveViewTimeoutRef.current) {
+      window.clearTimeout(saveViewTimeoutRef.current);
+    }
+    saveViewTimeoutRef.current = window.setTimeout(() => {
+      try {
+        localStorage.setItem("boardify_view", JSON.stringify({ scale, pan }));
+      } catch {
+        // ignore quota errors
+      }
+    }, 200);
+    return () => {
+      if (saveViewTimeoutRef.current) {
+        window.clearTimeout(saveViewTimeoutRef.current);
+      }
+    };
+  }, [scale, pan]);
 
   const zoomBy = (factor: number) => {
     if (!containerRef.current) return;
@@ -329,11 +370,20 @@ export default function DigitalCardboard() {
         currentScale={scale}
       />
       <div
+        className="absolute inset-0 pointer-events-none z-0"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjEuNSIgZmlsbD0icmdiYSgwLDAsMCwwLjQpIi8+PC9zdmc+")`,
+          backgroundSize: "15px 15px",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
         style={{
           transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
           transformOrigin: "0 0",
-          width: "100%",
-          height: "100%",
+          width: `${100 / scale}vw`,
+          height: `${100 / scale}vh`,
         }}
       >
         {cards.map((card) => (
@@ -345,18 +395,6 @@ export default function DigitalCardboard() {
             pan={pan}
           />
         ))}
-
-        <div
-          className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        />
       </div>
     </div>
   );
