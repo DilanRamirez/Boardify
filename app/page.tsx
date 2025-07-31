@@ -1,5 +1,4 @@
 "use client";
-// eslint-disable @typescript-eslint/no-explicit-any
 
 import { useState, useCallback } from "react";
 import { DraggableCard } from "@/components/draggable-card";
@@ -53,7 +52,7 @@ const DomainBadgeList: React.FC<{ stats: DomainStat[] }> = React.memo(
         </Badge>
       ))}
     </div>
-  )
+  ),
 );
 DomainBadgeList.displayName = "DomainBadgeList";
 
@@ -152,7 +151,7 @@ const LayoutControls: React.FC<{
         )}
       </div>
     </div>
-  )
+  ),
 );
 LayoutControls.displayName = "LayoutControls";
 
@@ -173,7 +172,7 @@ export default function DigitalCardboard() {
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
   const toggleHeader = useCallback(
     () => setIsHeaderCollapsed((prev) => !prev),
-    []
+    [],
   );
 
   const [scale, setScale] = useState(1);
@@ -211,7 +210,7 @@ export default function DigitalCardboard() {
       const newScaleUnclamped = clamp(
         scale * scaleFactor,
         MIN_SCALE,
-        MAX_SCALE
+        MAX_SCALE,
       );
       const worldX = (offsetX - pan.x) / scale;
       const worldY = (offsetY - pan.y) / scale;
@@ -253,6 +252,7 @@ export default function DigitalCardboard() {
         if (typeof reason === "string") {
           msg = reason;
         } else if (reason && typeof reason === "object") {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           msg = (reason as any).message || "";
         }
       }
@@ -265,10 +265,14 @@ export default function DigitalCardboard() {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     window.addEventListener("error", handleError as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     window.addEventListener("unhandledrejection", handleError as any);
     return () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       window.removeEventListener("error", handleError as any);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       window.removeEventListener("unhandledrejection", handleError as any);
     };
   }, []);

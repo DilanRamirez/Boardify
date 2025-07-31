@@ -40,10 +40,13 @@ export function useCardLayout() {
     }
     saveTimeoutRef.current = window.setTimeout(() => {
       try {
-        const positions = latestCardsRef.current.reduce((acc, card) => {
-          acc[card.id] = { x: card.x, y: card.y };
-          return acc;
-        }, {} as Record<number, Position>);
+        const positions = latestCardsRef.current.reduce(
+          (acc, card) => {
+            acc[card.id] = { x: card.x, y: card.y };
+            return acc;
+          },
+          {} as Record<number, Position>,
+        );
         localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
       } catch (e) {
         console.warn("Failed to save positions to localStorage", e);
@@ -87,7 +90,7 @@ export function useCardLayout() {
           latestCardsRef.current = merged;
 
           const uniqueDomains = Array.from(
-            new Set(cardsData.map((c) => c.domain))
+            new Set(cardsData.map((c) => c.domain)),
           );
           setDomains(uniqueDomains);
           setError(null);
@@ -96,7 +99,7 @@ export function useCardLayout() {
         console.error("Error loading cards:", err);
         if (!cancelled) {
           setError(
-            "Failed to load cards. Please ensure cards.json exists and has valid data."
+            "Failed to load cards. Please ensure cards.json exists and has valid data.",
           );
         }
       } finally {
@@ -120,13 +123,13 @@ export function useCardLayout() {
     (id: number, x: number, y: number) => {
       setCards((prev) => {
         const updated = prev.map((card) =>
-          card.id === id ? { ...card, x, y } : card
+          card.id === id ? { ...card, x, y } : card,
         );
         scheduleSavePositions(updated);
         return updated;
       });
     },
-    [scheduleSavePositions]
+    [scheduleSavePositions],
   );
 
   const resetPositions = useCallback(async () => {
