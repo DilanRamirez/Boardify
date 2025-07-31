@@ -53,7 +53,7 @@ const DomainBadgeList: React.FC<{ stats: DomainStat[] }> = React.memo(
         </Badge>
       ))}
     </div>
-  ),
+  )
 );
 DomainBadgeList.displayName = "DomainBadgeList";
 
@@ -152,7 +152,7 @@ const LayoutControls: React.FC<{
         )}
       </div>
     </div>
-  ),
+  )
 );
 LayoutControls.displayName = "LayoutControls";
 
@@ -168,10 +168,12 @@ export default function DigitalCardboard() {
     exportLayout,
   } = useCardLayout();
 
+  const [showStaleBanner, setShowStaleBanner] = useState(false);
+
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
   const toggleHeader = useCallback(
     () => setIsHeaderCollapsed((prev) => !prev),
-    [],
+    []
   );
 
   const [scale, setScale] = useState(1);
@@ -209,7 +211,7 @@ export default function DigitalCardboard() {
       const newScaleUnclamped = clamp(
         scale * scaleFactor,
         MIN_SCALE,
-        MAX_SCALE,
+        MAX_SCALE
       );
       const worldX = (offsetX - pan.x) / scale;
       const worldY = (offsetY - pan.y) / scale;
@@ -228,6 +230,49 @@ export default function DigitalCardboard() {
     setPan({ x: 0, y: 0 });
   };
 
+  const hardRefresh = async () => {
+    if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+      try {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+      } catch {
+        // ignore
+      }
+    }
+    // Force reload to bypass any stale caches
+    window.location.reload();
+  };
+
+  React.useEffect(() => {
+    const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
+      let msg = "";
+      if (event instanceof ErrorEvent) {
+        msg = event.error?.message || event.message || "";
+      } else if (event instanceof PromiseRejectionEvent) {
+        const reason = event.reason;
+        if (typeof reason === "string") {
+          msg = reason;
+        } else if (reason && typeof reason === "object") {
+          msg = (reason as any).message || "";
+        }
+      }
+      if (
+        msg.includes("Loading chunk") ||
+        msg.includes("chunk failed") ||
+        msg.includes("dynamically imported module")
+      ) {
+        setShowStaleBanner(true);
+      }
+    };
+
+    window.addEventListener("error", handleError as any);
+    window.addEventListener("unhandledrejection", handleError as any);
+    return () => {
+      window.removeEventListener("error", handleError as any);
+      window.removeEventListener("unhandledrejection", handleError as any);
+    };
+  }, []);
+
   if (loading) return <LoadingView />;
   if (error) return <ErrorView message={error} onRetry={resetPositions} />;
 
@@ -238,6 +283,35 @@ export default function DigitalCardboard() {
       className="relative w-screen h-screen bg-white dark:bg-gray-900 overflow-hidden"
       data-cy="digital-cardboard-root"
     >
+      {showStaleBanner && (
+        <div
+          className="fixed top-0 inset-x-0 bg-yellow-500 text-black flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-2 z-50 shadow"
+          role="alert"
+          data-cy="stale-banner"
+        >
+          <div className="text-sm font-medium">
+            New version available—please hard refresh.
+          </div>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={hardRefresh}
+              className="text-xs min-w-[80px]"
+            >
+              Hard Refresh
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setShowStaleBanner(false)}
+              className="text-xs min-w-[80px]"
+            >
+              Dismiss
+            </Button>
+          </div>
+        </div>
+      )}
       <LayoutControls
         isCollapsed={isHeaderCollapsed}
         toggleCollapse={toggleHeader}
