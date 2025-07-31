@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { DraggableCard } from "@/components/draggable-card";
 import { Badge } from "@/components/ui/badge";
@@ -260,6 +260,8 @@ const ErrorView: React.FC<{ message: string; onRetry: () => void }> =
     </div>
   ));
 
+ErrorView.displayName = "ErrorView";
+
 const DomainBadgeList: React.FC<{ stats: DomainStat[] }> = React.memo(
   ({ stats }) => (
     <div
@@ -279,6 +281,7 @@ const DomainBadgeList: React.FC<{ stats: DomainStat[] }> = React.memo(
     </div>
   ),
 );
+DomainBadgeList.displayName = "DomainBadgeList";
 
 const LayoutControls: React.FC<{
   isCollapsed: boolean;
@@ -357,6 +360,7 @@ const LayoutControls: React.FC<{
     </div>
   ),
 );
+LayoutControls.displayName = "LayoutControls";
 
 // ---------- Main Component ----------
 export default function DigitalCardboard() {
