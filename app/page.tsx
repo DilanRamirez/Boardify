@@ -4,7 +4,14 @@ import { useState, useCallback } from "react";
 import { DraggableCard } from "@/components/draggable-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, ZoomIn, ZoomOut } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  ZoomIn,
+  ZoomOut,
+  Lock,
+  Unlock,
+} from "lucide-react";
 import React from "react";
 import { useCardLayout } from "@/hooks/use-card-layout";
 
@@ -67,6 +74,8 @@ const LayoutControls: React.FC<{
   onZoomIn: () => void;
   onZoomOut: () => void;
   currentScale: number;
+  isMovementLocked: boolean;
+  toggleMovementLock: () => void;
 }> = React.memo(
   ({
     isCollapsed,
@@ -77,6 +86,8 @@ const LayoutControls: React.FC<{
     onZoomIn,
     onZoomOut,
     currentScale,
+    isMovementLocked,
+    toggleMovementLock,
   }) => (
     <div className="absolute top-4 right-4 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg border dark:border-gray-700">
       <div className="p-3">
@@ -140,6 +151,27 @@ const LayoutControls: React.FC<{
                 >
                   Reset
                 </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={toggleMovementLock}
+                  className={`text-xs bg-transparent flex items-center gap-1 ${
+                    isMovementLocked ? "text-red-500" : "text-green-500"
+                  }`}
+                  data-cy="lock-toggle-button"
+                  aria-pressed={isMovementLocked}
+                  aria-label={
+                    isMovementLocked
+                      ? "Unlock card movement"
+                      : "Lock card movement"
+                  }
+                >
+                  {isMovementLocked ? (
+                    <Lock className="w-3 h-3 font-bold" aria-hidden />
+                  ) : (
+                    <Unlock className="w-3 h-3 font-bold" aria-hidden />
+                  )}
+                </Button>
               </div>
             </>
           )}
@@ -177,6 +209,11 @@ export default function DigitalCardboard() {
 
   const [scale, setScale] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isMovementLocked, setIsMovementLocked] = useState(false);
+  const toggleMovementLock = useCallback(
+    () => setIsMovementLocked((prev) => !prev),
+    [],
+  );
   const saveViewTimeoutRef = React.useRef<number | null>(null);
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
@@ -200,6 +237,9 @@ export default function DigitalCardboard() {
         ) {
           setPan(parsed.pan);
         }
+        if (typeof parsed.movementLocked === "boolean") {
+          setIsMovementLocked(parsed.movementLocked);
+        }
       }
     } catch {
       // ignore malformed or unavailable storage
@@ -212,7 +252,10 @@ export default function DigitalCardboard() {
     }
     saveViewTimeoutRef.current = window.setTimeout(() => {
       try {
-        localStorage.setItem("boardify_view", JSON.stringify({ scale, pan }));
+        localStorage.setItem(
+          "boardify_view",
+          JSON.stringify({ scale, pan, movementLocked: isMovementLocked }),
+        );
       } catch {
         // ignore quota errors
       }
@@ -222,7 +265,7 @@ export default function DigitalCardboard() {
         window.clearTimeout(saveViewTimeoutRef.current);
       }
     };
-  }, [scale, pan]);
+  }, [scale, pan, isMovementLocked]);
 
   const zoomBy = (factor: number) => {
     if (!containerRef.current) return;
@@ -368,6 +411,8 @@ export default function DigitalCardboard() {
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
         currentScale={scale}
+        isMovementLocked={isMovementLocked}
+        toggleMovementLock={toggleMovementLock}
       />
       <div
         className="absolute inset-0 pointer-events-none z-0"
@@ -390,9 +435,12 @@ export default function DigitalCardboard() {
           <DraggableCard
             key={card.id}
             card={card}
-            onPositionChange={handlePositionChange}
+            onPositionChange={
+              isMovementLocked ? () => {} : handlePositionChange
+            }
             scale={scale}
             pan={pan}
+            isDraggable={!isMovementLocked}
           />
         ))}
       </div>

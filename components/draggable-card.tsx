@@ -23,6 +23,7 @@ interface DraggableCardProps {
   scale: number;
   pan: { x: number; y: number };
   onPositionChange: (id: number, x: number, y: number) => void;
+  isDraggable?: boolean;
 }
 
 export function DraggableCard({
@@ -30,6 +31,7 @@ export function DraggableCard({
   scale,
   pan,
   onPositionChange,
+  isDraggable = true,
 }: DraggableCardProps) {
   const [isDragging, setIsDragging] = useState(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
@@ -44,6 +46,7 @@ export function DraggableCard({
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    if (!isDraggable) return;
     startDrag(e.clientX, e.clientY);
     if (cardRef.current) {
       cardRef.current.setPointerCapture(e.pointerId);
@@ -70,11 +73,11 @@ export function DraggableCard({
     const minYWorld = -pan.y / scale;
     const maxXWorld = Math.max(
       minXWorld,
-      (window.innerWidth - cardWidth * scale - pan.x) / scale
+      (window.innerWidth - cardWidth * scale - pan.x) / scale,
     );
     const maxYWorld = Math.max(
       minYWorld,
-      (window.innerHeight - cardHeight * scale - pan.y) / scale
+      (window.innerHeight - cardHeight * scale - pan.y) / scale,
     );
 
     const boundedX = Math.max(minXWorld, Math.min(newX, maxXWorld));
@@ -113,6 +116,12 @@ export function DraggableCard({
     };
   }, [isDragging]);
 
+  React.useEffect(() => {
+    if (!isDraggable && isDragging) {
+      setIsDragging(false);
+    }
+  }, [isDraggable, isDragging]);
+
   const getDomainColor = (domain: string) => {
     const colors: Record<string, string> = {
       "Security & Compliance":
@@ -142,13 +151,17 @@ export function DraggableCard({
     );
   };
 
+  const cursorClass = !isDraggable
+    ? "cursor-not-allowed"
+    : isDragging
+      ? "cursor-grabbing"
+      : "cursor-grab";
+
   return (
     <Card
       ref={cardRef}
-      className={`absolute w-72 cursor-grab shadow-lg transition-shadow hover:shadow-xl dark:shadow-gray-800 gap-2 py-3 px-0 ${
-        isDragging
-          ? "shadow-2xl scale-105 cursor-grabbing dark:shadow-gray-700"
-          : ""
+      className={`absolute w-72 ${cursorClass} shadow-lg transition-shadow hover:shadow-xl dark:shadow-gray-800 gap-2 py-3 px-0 ${
+        isDragging ? "shadow-2xl scale-105 dark:shadow-gray-700" : ""
       } ${getDomainColor(card.domain)} border-2`}
       style={{
         left: card.x,
